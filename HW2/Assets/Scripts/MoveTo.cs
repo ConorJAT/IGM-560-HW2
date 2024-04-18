@@ -36,8 +36,35 @@ namespace BehaviorTree
         public override bool run (WorldState state)
         {
             // Fill in your conditional logic here.
-            if (state.Debug) Debug.Log(this + " Success");
-            return true;
+
+            // Is the char in the right place?
+            if (state.CharacterPosition[Mover] != Where)
+            {
+                // Is the target place connected to the char's current place?
+                if (state.ConnectedLocations[state.CharacterPosition[Mover]].Contains(Where))
+                {
+                    // Is there a door between where the char needs to go?
+                    if (state.BetweenLocations.ContainsKey(state.CharacterPosition[Mover]) && state.BetweenLocations[state.CharacterPosition[Mover]].Item1.Equals(Thing.Gate))
+                    {
+                        // Is the door open?
+                        if (state.Open[state.BetweenLocations[state.CharacterPosition[Mover]].Item1])
+                        {
+                            state.CharacterPosition[Mover] = Where;
+                            if (state.Debug) Debug.Log(this + " Success");
+                            return true;
+                        }
+                        else
+                        {
+                            if (state.Debug) Debug.Log(this + " Fail");
+                            return false;
+                        }
+                    }
+
+                    state.CharacterPosition[Mover] = Where;
+                    if (state.Debug) Debug.Log(this + " Success");
+                    return true;
+                }
+            }
 
             if (state.Debug) Debug.Log(this + " Fail");
             return false;

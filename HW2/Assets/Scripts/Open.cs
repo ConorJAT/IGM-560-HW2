@@ -36,8 +36,12 @@ namespace BehaviorTree
         public override bool run(WorldState state)
         {
             // Fill in your conditional logic here:
-            if (state.Debug) Debug.Log(this + " Success");
-            return true;
+            if (state.CharacterPosition[Opener] == state.ThingPosition[OpenThis] && !state.Open[OpenThis])
+            {
+                state.Open[OpenThis] = true;
+                if (state.Debug) Debug.Log(this + " Success");
+                return true;
+            }
 
             if (state.Debug) Debug.Log(this + " Fail");
             return false;

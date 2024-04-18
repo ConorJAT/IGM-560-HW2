@@ -27,8 +27,15 @@ namespace BehaviorTree
         public override bool run (WorldState state)
         {
             // Fill in your condition check here:
-            if (state.Debug) Debug.Log(this + " is open? Print the answer here.");
-            return true;
+            if (state.Debug) Debug.Log(this + " Print the answer here.");
+            if (state.Open[What])
+            {
+                if (state.Debug) Debug.Log("Thing is open!");
+                return true;
+            }
+
+            if (state.Debug) Debug.Log("Thing is closed!");
+            return false;
         }
 
         // Creates and returns a string describing the IsOpen condition.

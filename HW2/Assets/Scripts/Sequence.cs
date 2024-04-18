@@ -11,13 +11,19 @@ namespace BehaviorTree
         public List<Task> children { get; set; } = new List<Task>();
 
         // This method implements the sequence behavior.
-        public override bool run(WorldState state)
+        public override bool run (WorldState state)
         {
             if (state.Debug) Debug.Log("Sequencer Start");
 
             // Fill in your sequence logic here:
-            if (state.Debug) Debug.Log("Sequencer Fail");
-            return false;
+            foreach (Task child in children)
+            {
+                if (!child.run(state))
+                {
+                    if (state.Debug) Debug.Log("Sequencer Fail");
+                    return false;
+                }
+            }
 
             if (state.Debug) Debug.Log("Sequencer Success");
             return true;

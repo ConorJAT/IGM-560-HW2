@@ -16,9 +16,15 @@ namespace BehaviorTree
             if (state.Debug) Debug.Log("Selector Start");
 
             // Fill in your selector logic here:
-            if (state.Debug) Debug.Log("Selector Success");
-            return true;
-
+            foreach (Task child in children)
+            {
+                if (child.run(state))
+                {
+                    if (state.Debug) Debug.Log("Selector Success");
+                    return true;
+                }
+            }
+            
             if (state.Debug) Debug.Log("Selector Fail");
             return false;
         }
